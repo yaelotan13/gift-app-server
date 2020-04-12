@@ -1,0 +1,18 @@
+{
+  "name": "gift-app-server",
+  "version": "1.0.0",
+  "description": "gift app server",
+  "main": "index.js",
+  "scripts": {
+    "start": "PORT=5000 node nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yael Lotan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
