@@ -17,6 +17,19 @@ const addProduct = async (product) => {
     return status;
 };
 
+const getAllById = async (id)=> {
+    const status = serverError.internalServerError;
+    console.log(`SELECT * FROM products WHERE product_id='${id}'`);
+    try {
+        const result = await db.query(`SELECT * FROM products WHERE product_id='${id}'`);
+        return result.rows;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return status;
+};
+
 const getAllByStore = async (store)=> {
     const status = serverError.internalServerError;
     console.log(`SELECT * FROM products WHERE store='${store}'`);
@@ -73,5 +86,6 @@ module.exports = {
     getAllProducts,
     getAllByStore,
     getAllByPrice,
-    getNumProducts
+    getNumProducts,
+    getAllById
 };
