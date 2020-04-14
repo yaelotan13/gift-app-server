@@ -1,4 +1,4 @@
-const relationsModel = require('../models/relations');
+const categoriesModel = require('../models/categories');
 const { newSubCategoryIsValid } = require('./validate');
 const { clientError } = require('../util/statusCode');
 
@@ -9,7 +9,7 @@ const addSubCategory = async (category) => {
         return clientError.badReques;
     }
 
-    return await relationsModel.addSubCategory(category);
+    return await categoriesModel.addSubCategory(category);
 };
 
 const getAllCategories = async () => {
