@@ -15,6 +15,18 @@ router.post('/', upload.single('image'), async (req, res) => {
 });
 
 router.get('/', async (req, res, next) => {
+    console.log('trying get gifts by Id');
+    console.log(req.query);
+    if (req.query['id']) {
+        const result = await productController.getAllById(req.query.id);
+        console.log(result);
+        result instanceof Object ? res.send(result) : res.sendStatus(result);
+    } else {
+        next();
+    }
+});
+
+router.get('/', async (req, res, next) => {
     console.log('trying get gifts by store');
     console.log(req.query);
     if (req.query['store']) {

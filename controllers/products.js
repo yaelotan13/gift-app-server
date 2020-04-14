@@ -14,6 +14,10 @@ const addProduct = async (product) => {
     return await productModel.addProduct(product);
 };
 
+const getAllById = async (id) => {
+    return await productModel.getAllById(id);
+};
+
 const getAllByStore = async (store) => {
     return await productModel.getAllByStore(store);
 };
@@ -31,5 +35,6 @@ module.exports = {
     addProduct,
     getAllProducts,
     getAllByStore,
-    getAllByPrice
+    getAllByPrice,
+    getAllById
 };
