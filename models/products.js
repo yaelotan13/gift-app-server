@@ -56,9 +56,22 @@ const getAllProducts = async () => {
     return status;
 };
 
+const getNumProducts = async () => {
+    let numProducts = 0;
+
+    try {
+        numProducts = await db.query('SELECT MAX(product_id) FROM products');
+    } catch (error) {
+        console.log(error);
+    }
+
+    return numProducts;
+};
+
 module.exports = {
     addProduct,
     getAllProducts,
     getAllByStore,
-    getAllByPrice
+    getAllByPrice,
+    getNumProducts
 };

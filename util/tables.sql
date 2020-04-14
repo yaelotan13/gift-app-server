@@ -7,16 +7,26 @@ CREATE TABLE IF NOT EXISTS products (
     link VARCHAR (200)
 );
 
-CREATE TABLE IF NOT EXISTS categories (
-    category_id SERIAL PRIMARY KEY,
-    categoty_name VARCHAR (100) NOT NULL,
-    category_image VARCHAR (200) NOT NULL
+CREATE TABLE IF NOT EXISTS main_categories (
+    main_category_id SERIAL PRIMARY KEY,
+    main_category_name VARCHAR (100) NOT NULL,
+    main_category_image VARCHAR (200) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sub_categories (
+    sub_category_id SERIAL PRIMARY KEY,
+    main_category_id INTEGER NOT NULL,
+    sub_category_name VARCHAR (100) NOT NULL,
+    sub_category_image VARCHAR (200),
+    FOREIGN KEY (main_category_id) REFERENCES main_categories (main_category_id)
 );
 
 CREATE TABLE IF NOT EXISTS relations (
     relation_id SERIAL PRIMARY KEY,
     product_id INTEGER NOT NULL,
-    category_id INTEGER NOT NULL,
+    main_category_id INTEGER,
+    sub_category_id INTEGER,
     FOREIGN KEY (product_id) REFERENCES products (product_id),
-    FOREIGN KEY (category_id) REFERENCES categories (category_id)
+    FOREIGN KEY (main_category_id) REFERENCES main_categories (main_category_id),
+    FOREIGN KEY (sub_category_id) REFERENCES sub_categories (sub_category_id)
 );
