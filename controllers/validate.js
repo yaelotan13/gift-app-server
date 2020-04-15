@@ -6,14 +6,17 @@ const newMainCategoryIsValid = maincategory => maincategory.name && maincategory
 
 const newSubCategoryIsValid = subCategory => subCategory.id && subCategory.name;
 
-const productIdIsValie = async productId => {
+const productIdIsValid = async productId => {
     const numProducts = await productModel.getNumProducts();
-    return numProducts >= productId;
-}
+    return numProducts.rows[0].max >= productId;
+};
+
+const deleteCategoriesFromRelationsIsValid = categories => categories.sub_categories || categories.main_categories;
 
 module.exports = {
     newProductIsValid,
     newMainCategoryIsValid,
     newSubCategoryIsValid,
-    productIdIsValie
+    productIdIsValid,
+    deleteCategoriesFromRelationsIsValid
 }
