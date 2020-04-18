@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-        console.log('get all main categories');
+        console.log('get all sub categories');
         console.log(req.query);
         const result = await subCategoriesController.getAllCategories(req.query);
         Array.isArray(result)? res.send(result) : res.sendStatus(result);

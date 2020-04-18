@@ -13,7 +13,7 @@ const addSubCategory = async (category) => {
 };
 
 const getAllCategories = async () => {
-    return await categoryModel.getAllSubCategories();
+    return await categoriesModel.getAllSubCategories();
 };
 
 module.exports = {
