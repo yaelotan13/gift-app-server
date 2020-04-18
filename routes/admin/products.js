@@ -17,8 +17,8 @@ router.post('/', upload.single('image'), async (req, res) => {
 router.get('/', async (req, res, next) => {
     console.log('trying get gifts by Id');
     console.log(req.query);
-    if (req.query['id']) {
-        const result = await productController.getAllById(req.query.id);
+    if (req.query['product_id']) {
+        const result = await productController.getAllById(req.query.product_id);
         console.log(result);
         result instanceof Object ? res.send(result) : res.sendStatus(result);
     } else {

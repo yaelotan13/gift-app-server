@@ -11,12 +11,12 @@ const productIdIsValid = async productId => {
     return numProducts.rows[0].max >= productId;
 };
 
-const deleteCategoriesFromRelationsIsValid = categories => categories.sub_categories || categories.main_categories;
+const CategoriesToEditAreValid = categories => categories.sub_categories || categories.main_categories;
 
 module.exports = {
     newProductIsValid,
     newMainCategoryIsValid,
     newSubCategoryIsValid,
     productIdIsValid,
-    deleteCategoriesFromRelationsIsValid
+    CategoriesToEditAreValid
 }
