@@ -1,6 +1,7 @@
 const productModel = require('../models/products');
 const { newProductIsValid } = require('./validate');
 const { clientError } = require('../util/statusCode');
+const { newProductIsValid : updatedProductIsValid } = require('./validate');
 
 const addProduct = async (product) => {
     console.log('validating...');
@@ -31,10 +32,20 @@ const getAllProducts = async (params) => {
     return await productModel.getAllProducts();
 };
 
+const updateProductInfo = async (id, updatedProduct) => {
+    if (!updatedProductIsValid(updatedProduct)) {
+        console.log('NOT VALID');
+        return clientError.badReques;
+    }
+
+    return await productModel.updateProductInfo(id, updatedProduct);
+};
+
 module.exports = {
     addProduct,
     getAllProducts,
     getAllByStore,
     getAllByPrice,
-    getAllById
+    getAllById,
+    updateProductInfo
 };
