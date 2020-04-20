@@ -59,5 +59,5 @@ const addCategoriesByProductId = async (type, productId, categories) => {
 module.exports = {
     getCategoriesByProductId,
     deleteCategoriesByProductId,
-    addCategoriesByProductId
+    addCategoriesByProductId,
 };

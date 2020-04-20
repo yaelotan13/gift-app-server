@@ -81,11 +81,27 @@ const getNumProducts = async () => {
     return numProducts;
 };
 
+const updateProductInfo = async (productId, updatedProduct) => {
+    let status = serverError.internalServerError;
+    const { name, store, price, link, image } = {...updatedProduct};
+    console.log('in model');
+    try {
+        const result = await db.query(`UPDATE products SET product_name='${name}', price=${price}, store='${store}', link='${link}', product_image='${image}' WHERE product_id=${productId};`);
+        console.log(result);
+        status = result.rowCount === 1 ? successful.created : serverError.internalServerError;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return status;
+};
+
 module.exports = {
     addProduct,
     getAllProducts,
     getAllByStore,
     getAllByPrice,
     getNumProducts,
-    getAllById
+    getAllById,
+    updateProductInfo
 };
