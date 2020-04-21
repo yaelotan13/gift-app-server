@@ -1,7 +1,8 @@
 const productModel = require('../models/products');
-const { newProductIsValid } = require('./validate');
-const { clientError } = require('../util/statusCode');
+const { newProductIsValid, productIdIsValid } = require('./validate');
+const { clientError, successful } = require('../util/statusCode');
 const { newProductIsValid : updatedProductIsValid } = require('./validate');
+const { deleteProducts } = require('./relations');
 
 const addProduct = async (product) => {
     console.log('validating...');
@@ -15,6 +16,23 @@ const addProduct = async (product) => {
     return await productModel.addProduct(product);
 };
 
+const deleteProduct = async (productId) => {
+    const isValidId = await productIdIsValid(productId);
+    console.log(`is valid ? ${isValidId}`);
+    if (!isValidId) {
+        console.log('NOT VALID');
+        return clientError;
+    }
+
+    const deleteProductsRelationsStatus = await deleteProducts(productId);
+    if (deleteProductsRelationsStatus !== successful.ok) {
+        console.log('in not ok');
+        console.log(deleteProductsRelationsStatus);
+        return deleteProductsRelationsStatus;
+    }
+
+    return await productModel.deleteProduct(productId);
+}
 const getAllById = async (id) => {
     return await productModel.getAllById(id);
 };
@@ -47,5 +65,6 @@ module.exports = {
     getAllByStore,
     getAllByPrice,
     getAllById,
-    updateProductInfo
+    updateProductInfo,
+    deleteProduct
 };

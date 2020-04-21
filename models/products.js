@@ -33,6 +33,18 @@ const addProduct = async (product) => {
     return status;
 };
 
+const deleteProduct = async (productId) => {
+    const status = serverError.internalServerError;
+
+    try {
+        const result = await db.query(`DELETE FROM products WHERE product_id=${productId}`);
+        return result.rowCount > 0 ? successful.ok : clientError.notFound;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return status;
+}
 const getAllById = async (id)=> {
     const status = serverError.internalServerError;
     console.log(`SELECT * FROM products WHERE product_id='${id}'`);
@@ -119,5 +131,6 @@ module.exports = {
     getAllByPrice,
     getNumProducts,
     getAllById,
-    updateProductInfo
+    updateProductInfo,
+    deleteProduct
 };
