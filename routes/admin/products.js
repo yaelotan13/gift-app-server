@@ -5,14 +5,16 @@ const upload = require('../../util/imageStorage');
 
 const router = express.Router();
 
-router.post('/', upload.single('image'), async (req, res) => {
+router.post('/', async (req, res) => {
     console.log('got to post products');
     console.log(req.file);
     const newProduct = req.body;
     console.log(newProduct);
-    const status = await productController.addProduct({...newProduct, image: req.file.originalname});
-    console.log(status);
-    res.status(status).send(newProduct);
+    const newProductId = await productController.addProduct(newProduct);
+    //const status = await productController.addProduct({...newProduct, image: req.file.originalname});
+    res.send({
+        productId: newProductId
+    });
 });
 
 router.put('/', async (req, res) => {

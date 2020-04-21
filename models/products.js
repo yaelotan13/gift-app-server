@@ -1,15 +1,31 @@
 const db = require('../util/db')();
 const { successful, serverError} = require('../util/statusCode');
 
+const getProductId = async () => {
+    const retValue = null;
+
+    try {
+        const result = await db.query('SELECT MAX(product_id) FROM products');
+        return result.rows[0].max;
+    } catch (error) {
+        console.log(error);
+    }   
+
+    return retValue;
+};
+
 const addProduct = async (product) => {
-    console.log('in model');
+    console.log('in addProduct model');
     console.log(product);
     const { name, store, price, image, link } = product;
     let status = serverError.internalServerError;
     
     try {
         const result = await db.query(`INSERT INTO products (product_name, store, price, product_image, link) VALUES ('${name}', '${store}', ${price}, '${image}', '${link}')`);
-        status = result.rowCount === 1 ? successful.created : serverError.internalServerError;
+        const productId = await getProductId();
+        console.log('got product id');
+        console.log(productId);
+        status = result.rowCount === 1 ? productId : serverError.internalServerError;
     } catch (error) {
         console.log(error);
     }
