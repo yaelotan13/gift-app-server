@@ -17,7 +17,7 @@ const deleteCategories = async (id, categories) => {
         relationsModel.deleteCategoriesByProductId('sub_categories', id, categories.sub_categories) 
         : 
         relationsModel.deleteCategoriesByProductId('main_categories', id, categories.main_categories);
-}
+};
 
 const addCategories = async (id, categories) => {
     if (!CategoriesToEditAreValid(categories)) {
@@ -31,11 +31,17 @@ const addCategories = async (id, categories) => {
         relationsModel.addCategoriesByProductId('sub_categories', id, categories.sub_categories) 
         : 
         relationsModel.addCategoriesByProductId('main_categories', id, categories.main_categories);
-}
+};
+
+const deleteProducts = async (productId) => {
+    console.log('in relations controller');
+    return await relationsModel.deleteProducts(productId);
+};
 
 module.exports = {
     isProductValid,
     getCategoriesAllById,
     deleteCategories,
     addCategories,
+    deleteProducts
 };

@@ -56,8 +56,24 @@ const addCategoriesByProductId = async (type, productId, categories) => {
     return status;
 }
 
+const deleteProducts = async (productId) => {
+    console.log('in relations model');
+    const status = serverError.internalServerError;
+
+    try {
+        const result = await db.query(`DELETE FROM relations WHERE product_id=${productId}`);
+        console.log(result);
+        return result.rowCount >= 0 ? successful.ok : clientError.notFound;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return status;
+};
+
 module.exports = {
     getCategoriesByProductId,
     deleteCategoriesByProductId,
     addCategoriesByProductId,
+    deleteProducts
 };

@@ -26,6 +26,14 @@ router.put('/', async (req, res) => {
     }
 });
 
+router.delete('/', async (req, res) => {
+    console.log('in delete prodcuts');
+    const status = await productController.deleteProduct(req.body.product_id);
+    console.log('got response');
+    console.log(status);
+    res.sendStatus(status);
+});
+
 router.get('/', async (req, res, next) => {
     console.log('trying get gifts by Id');
     console.log(req.query);
