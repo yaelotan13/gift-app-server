@@ -1,17 +1,28 @@
 const express = require('express');
 
 const productController = require('../../controllers/products');
-const upload = require('../../util/imageStorage');
+const { uploadS3 } = require('../../util/s3-uploader');
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
-    console.log('got to post products');
-    console.log(req.file);
+// router.use('/', uploadS3.single('image'), async (req, res, next) => {
+//     console.log('in getting image')
+//     console.log(req.body);
+//     if (req.body.image) {
+//         console.log('there IS an image!');
+//         const imageUrl = uploadS3.single('image');
+//         res.image = imageUrl;
+//     }
+    
+//     next();
+// });
+
+router.post('/', uploadS3.single('image'), async (req, res) => {
+    console.log('got to post new product');
+    console.log(req.file.location);
     const newProduct = req.body;
     console.log(newProduct);
-    const newProductId = await productController.addProduct(newProduct);
-    //const status = await productController.addProduct({...newProduct, image: req.file.originalname});
+    const newProductId = await productController.addProduct({ ...newProduct, image: req.file.location });
     res.send({
         productId: newProductId
     });

@@ -1,6 +1,6 @@
 const productModel = require('../models/products');
 
-const newProductIsValid = product => product.name && product.store && product.price && product.image && product.link;
+const newProductIsValid = product => product.name && product.store && product.price && product.link;
 
 const newMainCategoryIsValid = maincategory => maincategory.name && maincategory.image;
 
