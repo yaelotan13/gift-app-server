@@ -41,6 +41,22 @@ const deleteCategoriesByProductId = async (type, productId, categories) => {
     return status;
 }
 
+const deleteMainCategories = async (categoriesIds) => {
+    const status = serverError.internalServerError;
+    console.log('in deleteMainCategories relations model');
+    console.log(`DELETE FROM relations WHERE main_category_id = ANY(array[${categoriesIds}])`)
+    try {
+        await db.query(`DELETE FROM relations WHERE sub_category_id IN (SELECT sub_category_id FROM sub_categories WHERE main_category_id = ANY(array[${categoriesIds}]))`);
+        const result = await db.query(`DELETE FROM relations WHERE main_category_id = ANY(array[${categoriesIds}])`);
+        console.log(result);
+        return result.rowCount >= 0 ? successful.ok : clientError.notFound;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return status;
+};
+
 const addCategoriesByProductId = async (type, productId, categories) => {
     const status = serverError.internalServerError;
     const prefix = type === 'sub_categories' ? 'sub' : 'main';
@@ -75,5 +91,6 @@ module.exports = {
     getCategoriesByProductId,
     deleteCategoriesByProductId,
     addCategoriesByProductId,
-    deleteProducts
+    deleteProducts,
+    deleteMainCategories
 };

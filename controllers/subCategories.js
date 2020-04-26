@@ -16,7 +16,13 @@ const getAllCategories = async () => {
     return await categoriesModel.getAllSubCategories();
 };
 
+const deleteMainCategoriesFromSubCategories = async (categoriesIds) => {
+    console.log('in subcategories controller');
+    return await categoriesModel.deleteMainCategoriesFromSubCategories(categoriesIds);
+}
+
 module.exports = {
     addSubCategory,
-    getAllCategories
+    getAllCategories,
+    deleteMainCategoriesFromSubCategories
 }

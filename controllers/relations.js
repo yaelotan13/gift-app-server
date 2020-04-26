@@ -6,6 +6,10 @@ const isProductValid = async id => await productIdIsValid(id);
 
 const getCategoriesAllById = async (id) => await relationsModel.getCategoriesByProductId(id);
 
+const deletMainCategories = async (categoriesIds) => {
+    return await relationsModel.deleteMainCategories(categoriesIds);
+};
+
 const deleteCategories = async (id, categories) => {
     if (!CategoriesToEditAreValid(categories)) {
         return clientError.badReques;
@@ -43,5 +47,6 @@ module.exports = {
     getCategoriesAllById,
     deleteCategories,
     addCategories,
-    deleteProducts
+    deleteProducts,
+    deletMainCategories
 };

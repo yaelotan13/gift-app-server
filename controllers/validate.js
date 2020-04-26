@@ -1,4 +1,5 @@
 const productModel = require('../models/products');
+const categoriesModel = require('../models/categories');
 
 const newProductIsValid = product => product.name && product.store && product.price && product.link;
 
@@ -11,6 +12,21 @@ const productIdIsValid = async productId => {
     return numProducts.rows[0].max >= productId;
 };
 
+const categorisIdsAreValid = async categoriesIds => {
+    const numCategories = await categoriesModel.getNumCategories();
+    categoriesIds.forEach(categoryId => {
+        if (categoryId > numCategories || categoryId < 0) {
+            return false;
+        }
+    });
+
+    return true;
+};
+
+const categoryIsValid = async categoryId => {
+
+};
+
 const CategoriesToEditAreValid = categories => categories.sub_categories || categories.main_categories;
 
 module.exports = {
@@ -18,5 +34,7 @@ module.exports = {
     newMainCategoryIsValid,
     newSubCategoryIsValid,
     productIdIsValid,
-    CategoriesToEditAreValid
+    CategoriesToEditAreValid,
+    categorisIdsAreValid,
+    categoryIsValid
 }

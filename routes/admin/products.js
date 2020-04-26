@@ -5,18 +5,6 @@ const { uploadS3 } = require('../../util/s3-uploader');
 
 const router = express.Router();
 
-// router.use('/', uploadS3.single('image'), async (req, res, next) => {
-//     console.log('in getting image')
-//     console.log(req.body);
-//     if (req.body.image) {
-//         console.log('there IS an image!');
-//         const imageUrl = uploadS3.single('image');
-//         res.image = imageUrl;
-//     }
-    
-//     next();
-// });
-
 router.post('/', uploadS3.single('image'), async (req, res) => {
     console.log('got to post new product');
     console.log(req.file.location);
