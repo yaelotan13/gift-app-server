@@ -1,12 +1,12 @@
 const express = require('express');
 
 const mainCategoriesController = require('../../../controllers/mainCategories');
-const upload = require('../../../util/imageStorage');
+const { uploadS3 } = require('../../../util/s3-uploader');
 
 const router = express.Router();
 
-router.post('/', upload.single('image'), async (req, res) => {
-    const status = await mainCategoriesController.addMainCategory({...req.body, image: req.file.originalname});
+router.post('/', uploadS3.single('image'), async (req, res) => {
+    const status = await mainCategoriesController.addMainCategory({ ...req.body, image: req.file.location });
     res.status(status).send(`main category ${req.body.name} added!`);
 });
 
