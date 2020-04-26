@@ -1,5 +1,5 @@
 const db = require('../util/db')();
-const { successful, serverError } = require('../util/statusCode');
+const { successful, serverError, clientError } = require('../util/statusCode');
 
 const addMainCategory = async (category) => {
     const { name, image } = category;
@@ -55,17 +55,57 @@ const getAllSubCategories = async () => {
     return status;
 };
 
-const getMainCategoriesById = async (id) => {
+const getNumCategories = async () => {
+    let numProducts = 0;
 
+    try {
+        numProducts = await db.query('SELECT MAX(main_category_id) FROM main_categories');
+    } catch (error) {
+        console.log(error);
+    }
+
+    return numProducts;
 };
 
-const getSubCategoriesById = async (id) => {
+const deleteMainCategories = async (categoriesIds) => {
+    console.log('now in deleteMainCategories');
+    const status = serverError.internalServerError;
+    
+    try {
+        let result = await db.query(`DELETE FROM main_categories WHERE main_category_id = ANY(array[${categoriesIds}])`)
+        return result.rowCount > 0 ? successful.ok : clientError.notFound;
+    } catch (error) {
+        console.log('now the ERROR IS HERE!!!!!');
+        console.log(`DELETE FROM main_categories WHERE main_category_id = ANY(array[${categoriesIds}]);`);
+        console.log(error);
+    }
 
+    return status;
+};
+
+const deleteMainCategoriesFromSubCategories = async (categoriesIds) => {
+    const status = serverError.internalServerError;
+    console.log('in model deleteMainCategoriesFromSubCategories');
+    console.log(categoriesIds);
+    try {
+        console.log(`DELETE FROM sub_categories WHERE main_category_id = ANY(array[${categoriesIds}]);`);
+        let result = await db.query(`DELETE FROM sub_categories WHERE main_category_id = ANY(array[${categoriesIds}]);`)
+        console.log('result is:');
+        console.log(result);
+        return result.rowCount > 0 ? successful.ok : clientError.notFound;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return status;
 };
 
 module.exports = {
     addMainCategory,
     addSubCategory,
     getAllMainCategories,
-    getAllSubCategories
+    getAllSubCategories,
+    getNumCategories,
+    deleteMainCategories,
+    deleteMainCategoriesFromSubCategories
 }

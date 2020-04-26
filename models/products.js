@@ -44,7 +44,8 @@ const deleteProduct = async (productId) => {
     }
 
     return status;
-}
+};
+
 const getAllById = async (id)=> {
     const status = serverError.internalServerError;
     console.log(`SELECT * FROM products WHERE product_id='${id}'`);
