@@ -1,6 +1,6 @@
 const categoriesModel = require('../models/categories');
 const { newSubCategoryIsValid } = require('./validate');
-const { clientError } = require('../util/statusCode');
+const { clientError, successful, serverError } = require('../util/statusCode');
 
 const addSubCategory = async (category) => {
     console.log(`in add sub category, got: `);
@@ -21,8 +21,26 @@ const deleteMainCategoriesFromSubCategories = async (categoriesIds) => {
     return await categoriesModel.deleteMainCategoriesFromSubCategories(categoriesIds);
 }
 
+const editSubCategoris = async (mainCategoryId, subCategories) => {
+    const { removedCategories, addedCategories } = subCategories;
+    let removedCategoriesStatus = successful.ok;
+    let addedCategoriesStatus = successful.ok;
+
+    if (removedCategories.length > 0) {
+        const parsedCateforiesToRemove = "'" + removedCategories.join("','") +"'";
+        removedCategoriesStatus = await categoriesModel.removeSubCategorisFromMainCategory(mainCategoryId, parsedCateforiesToRemove);
+    }
+    if (addedCategories.length > 0) {
+        const parsedCateforiesToAdd = "'" + addedCategories.join("','") +"'";
+        addedCategoriesStatus = await categoriesModel.addSubCategorisFromMainCategory(mainCategoryId, parsedCateforiesToAdd);
+    }
+
+    return removedCategoriesStatus === successful.ok && addedCategoriesStatus === successful.ok ? successful.ok : serverError.internalServerError;
+};
+
 module.exports = {
     addSubCategory,
     getAllCategories,
-    deleteMainCategoriesFromSubCategories
+    deleteMainCategoriesFromSubCategories,
+    editSubCategoris
 }

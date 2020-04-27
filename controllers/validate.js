@@ -13,7 +13,7 @@ const productIdIsValid = async productId => {
 };
 
 const categorisIdsAreValid = async categoriesIds => {
-    const numCategories = await categoriesModel.getNumCategories();
+    const numCategories = await categoriesModel.getNumMainCategories();
     categoriesIds.forEach(categoryId => {
         if (categoryId > numCategories || categoryId < 0) {
             return false;
@@ -27,6 +27,11 @@ const categoryIsValid = async categoryId => {
 
 };
 
+const mainCategoryIsValid = async (mainCategoryId) => {
+    const numMainCategories = await categoriesModel.getNumMainCategories();
+    return mainCategoryId <= numMainCategories;
+};
+
 const CategoriesToEditAreValid = categories => categories.sub_categories || categories.main_categories;
 
 module.exports = {
@@ -36,5 +41,6 @@ module.exports = {
     productIdIsValid,
     CategoriesToEditAreValid,
     categorisIdsAreValid,
-    categoryIsValid
+    categoryIsValid,
+    mainCategoryIsValid
 }
