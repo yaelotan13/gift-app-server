@@ -33,11 +33,11 @@ const addProduct = async (product) => {
     return status;
 };
 
-const deleteProduct = async (productId) => {
+const deleteProducts = async (productIds) => {
     const status = serverError.internalServerError;
 
     try {
-        const result = await db.query(`DELETE FROM products WHERE product_id=${productId}`);
+        const result = await db.query(`DELETE FROM products WHERE product_id = ANY(array[${productIds}]);`);
         return result.rowCount > 0 ? successful.ok : clientError.notFound;
     } catch (error) {
         console.log(error);
@@ -133,5 +133,5 @@ module.exports = {
     getNumProducts,
     getAllById,
     updateProductInfo,
-    deleteProduct
+    deleteProducts
 };

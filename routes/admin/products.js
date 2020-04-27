@@ -27,7 +27,8 @@ router.put('/', async (req, res) => {
 
 router.delete('/', async (req, res) => {
     console.log('in delete prodcuts');
-    const status = await productController.deleteProduct(req.query.product_id);
+    console.log(req.body.products_id)
+    const status = await productController.deleteProducts(req.body.products_id);
     console.log('got response');
     console.log(status);
     res.sendStatus(status);
