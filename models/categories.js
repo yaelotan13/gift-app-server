@@ -55,7 +55,7 @@ const getAllSubCategories = async () => {
     return status;
 };
 
-const getNumCategories = async () => {
+const getNumMainCategories = async () => {
     let numProducts = 0;
 
     try {
@@ -100,12 +100,41 @@ const deleteMainCategoriesFromSubCategories = async (categoriesIds) => {
     return status;
 };
 
+const removeSubCategorisFromMainCategory = async (mainCategory, categoriesToRemove) => {
+    const status = serverError.internalServerError;
+
+    try {
+        let result = await db.query(`DELETE FROM sub_categories WHERE main_category_id=${mainCategory} AND sub_category_name=ANY(array[${categoriesToRemove}]);`)
+        return result.rowCount > 0 ? successful.ok : clientError.notFound;
+    } catch (error) {
+        console.log(`DELETE FROM sub_categories WHERE main_category_id=${mainCategory} AND sub_category_name = ANY(array[${categoriesToRemove}]);`)
+        console.log(error);
+    }
+
+    return status;
+};
+
+const addSubCategorisFromMainCategory = async (mainCategory, categoriesToAdd) => {
+    let status = serverError.internalServerError;
+
+    try {
+        let result = await db.query(`INSERT INTO sub_categories (main_category_id, sub_category_name) VALUES (${mainCategory}, unnest(array[${categoriesToAdd}]))`);
+        status = result.rowCount === categoriesToAdd.length ? successful.created : serverError.internalServerError;
+    } catch (error) {
+        console.log(error);
+    }
+
+    return status;
+};
+
 module.exports = {
     addMainCategory,
     addSubCategory,
     getAllMainCategories,
     getAllSubCategories,
-    getNumCategories,
+    getNumMainCategories,
     deleteMainCategories,
-    deleteMainCategoriesFromSubCategories
+    deleteMainCategoriesFromSubCategories,
+    addSubCategorisFromMainCategory,
+    removeSubCategorisFromMainCategory
 }
