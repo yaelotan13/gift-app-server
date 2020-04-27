@@ -37,9 +37,8 @@ const addCategories = async (id, categories) => {
         relationsModel.addCategoriesByProductId('main_categories', id, categories.main_categories);
 };
 
-const deleteProducts = async (productId) => {
-    console.log('in relations controller');
-    return await relationsModel.deleteProducts(productId);
+const deleteProductsFromRelations = async (productIds) => {
+    return await relationsModel.deleteProducts(productIds);
 };
 
 module.exports = {
@@ -47,6 +46,6 @@ module.exports = {
     getCategoriesAllById,
     deleteCategories,
     addCategories,
-    deleteProducts,
+    deleteProductsFromRelations,
     deletMainCategories
 };
