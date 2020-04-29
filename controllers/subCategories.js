@@ -1,6 +1,7 @@
 const categoriesModel = require('../models/categories');
 const { newSubCategoryIsValid } = require('./validate');
 const { clientError, successful, serverError } = require('../util/statusCode');
+const relationsModel = require('../models/relations')
 
 const addSubCategory = async (category) => {
     console.log(`in add sub category, got: `);
@@ -28,6 +29,7 @@ const editSubCategoris = async (mainCategoryId, subCategories) => {
 
     if (removedCategories.length > 0) {
         const parsedCateforiesToRemove = "'" + removedCategories.join("','") +"'";
+        await relationsModel.deleteSubCategories(parsedCateforiesToRemove);
         removedCategoriesStatus = await categoriesModel.removeSubCategorisFromMainCategory(mainCategoryId, parsedCateforiesToRemove);
     }
     if (addedCategories.length > 0) {

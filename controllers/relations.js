@@ -31,10 +31,10 @@ const addCategories = async (id, categories) => {
     console.log('in controller, add categories');
     console.log(categories);
     
-    return await categories.sub_categories ? 
-        relationsModel.addCategoriesByProductId('sub_categories', id, categories.sub_categories) 
-        : 
-        relationsModel.addCategoriesByProductId('main_categories', id, categories.main_categories);
+    if (categories.sub_categories) {
+        return await relationsModel.addCategoriesByProductId('sub_categories', id, categories.sub_categories.join(', ')) 
+    }
+    return await relationsModel.addCategoriesByProductId('main_categories', id, categories.main_categories.join(', '));
 };
 
 const deleteProductsFromRelations = async (productIds) => {
