@@ -1,7 +1,12 @@
+const { decryptPassword } = require('../util/token');
+const { clientError, successful } = require('../util/statusCode');
+
 const logIn = (password) => {
-    console.log('in controller');
-    console.log(password);
-    return 200;
+    if (decryptPassword(password) === process.env.ADMIN_PASSWORD) {
+        return successful.ok;
+    }
+
+    return clientError.unauthorized;
 };
 
 module.exports = {
