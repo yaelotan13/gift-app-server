@@ -1,4 +1,3 @@
-// const { } = require('./categories');
 const {
     addProduct,
     getAllProducts,
