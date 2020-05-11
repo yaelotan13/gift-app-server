@@ -9,7 +9,8 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors({
-    origin: 'https://master.d2xagu9zkqafsg.amplifyapp.com'
+    origin: 'https://master.d2xagu9zkqafsg.amplifyapp.com',
+    credentials: true,
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()) //TODO : NECCESSERY ?
