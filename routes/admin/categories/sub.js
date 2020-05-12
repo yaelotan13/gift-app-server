@@ -13,6 +13,7 @@ router.post('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res) => {
+  console.log('POST to sub categories by main category id');
   console.log(req.body);
   console.log(req.query.mainCategoryId)
   const status = await subCategoriesController.editSubCategoris(req.query.mainCategoryId, req.body);
