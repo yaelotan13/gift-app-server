@@ -102,12 +102,12 @@ const deleteMainCategoriesFromSubCategories = async (categoriesIds) => {
 
 const removeSubCategorisFromMainCategory = async (mainCategory, categoriesToRemove) => {
     const status = serverError.internalServerError;
-
+    console.log(`DELETE FROM sub_categories WHERE main_category_id=${mainCategory} AND sub_category_name = ANY(array[${categoriesToRemove}]);`)
+    
     try {
         let result = await db.query(`DELETE FROM sub_categories WHERE main_category_id=${mainCategory} AND sub_category_name=ANY(array[${categoriesToRemove}]);`)
         return result.rowCount > 0 ? successful.ok : clientError.notFound;
     } catch (error) {
-        console.log(`DELETE FROM sub_categories WHERE main_category_id=${mainCategory} AND sub_category_name = ANY(array[${categoriesToRemove}]);`)
         console.log(error);
     }
 
@@ -116,7 +116,8 @@ const removeSubCategorisFromMainCategory = async (mainCategory, categoriesToRemo
 
 const addSubCategorisFromMainCategory = async (mainCategory, categoriesToAdd) => {
     let status = serverError.internalServerError;
-
+    console.log(`INSERT INTO sub_categories (main_category_id, sub_category_name) VALUES (${mainCategory}, unnest(array[${categoriesToAdd}]))`);
+    
     try {
         let result = await db.query(`INSERT INTO sub_categories (main_category_id, sub_category_name) VALUES (${mainCategory}, unnest(array[${categoriesToAdd}]))`);
         status = result.rowCount === categoriesToAdd.length ? successful.created : serverError.internalServerError;
