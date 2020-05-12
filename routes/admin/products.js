@@ -63,7 +63,7 @@ router.get('/', async (req, res, next) => {
     console.log(req.query);
     if (req.query['price']) {
         const result = await productController.getAllByPrice(req.query.price, req.query.filter);
-        Array.isArray(result)? res.send(result) : res.sendStatus(result);
+        Array.isArray(result) ? res.send(result) : res.sendStatus(result);
     } else {
         next();
     }
@@ -71,9 +71,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/', async (req, res) => {
     console.log('get all gifts');
-    console.log(req.query);
     const result = await productController.getAllProducts(req.query);
-    Array.isArray(result)? res.send(result) : res.sendStatus(result);
+    console.log('route got the result');
+    console.log(result);
+    Array.isArray(result) ? res.send(result) : res.sendStatus(result);
 });
 
 module.exports = router;
