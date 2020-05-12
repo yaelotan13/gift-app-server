@@ -86,7 +86,7 @@ const getAllByPrice = async (value, sign) => {
 };
 
 const getAllProducts = async () => {
-    console.log('gel all products in model');
+    console.log('get all products in model');
     const status = serverError.internalServerError;
 
     try {
