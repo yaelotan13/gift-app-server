@@ -73,7 +73,7 @@ router.get('/', async (req, res) => {
     console.log('get all gifts');
     const result = await productController.getAllProducts(req.query);
     console.log('route got the result');
-    console.log(result);
+    console.log(`the result is array? ${Array.isArray(result)}`);
     Array.isArray(result) ? res.send(result) : res.sendStatus(result);
 });
 
