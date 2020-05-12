@@ -86,10 +86,12 @@ const getAllByPrice = async (value, sign) => {
 };
 
 const getAllProducts = async () => {
+    console.log('gel all products in model');
     const status = serverError.internalServerError;
 
     try {
         const result = await db.query('SELECT * FROM products');
+        console.log(result.rows);
         return result.rows;
     } catch (error) {
         console.log(error);

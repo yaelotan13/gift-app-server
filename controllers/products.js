@@ -40,6 +40,7 @@ const getAllByPrice = async (value, filter) => {
 };
 
 const getAllProducts = async (params) => {
+    console.log('transfering request to model');
     return await productModel.getAllProducts();
 };
 

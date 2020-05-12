@@ -13,7 +13,7 @@ app.use(cors({
     credentials: true,
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json()) //TODO : NECCESSERY ?
+app.use(bodyParser.json()) 
 
 app.use('/admin', adminRoutes);
 
