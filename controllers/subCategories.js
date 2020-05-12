@@ -27,6 +27,7 @@ const editSubCategoris = async (mainCategoryId, subCategories) => {
     let removedCategoriesStatus = successful.ok;
     let addedCategoriesStatus = successful.ok;
 
+    console.log('in edit sub categories controller');
     if (removedCategories.length > 0) {
         const parsedCateforiesToRemove = "'" + removedCategories.join("','") +"'";
         await relationsModel.deleteSubCategories(parsedCateforiesToRemove);
